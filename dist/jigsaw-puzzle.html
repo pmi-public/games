@@ -5,7 +5,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>demo | jigsaw puzzle</title>
-  <script type="module" crossorigin src="./assets/jigsawPuzzle-DeItl_VN.js"></script>
+  <script type="module" crossorigin src="./assets/jigsawPuzzle-C8e9fYWi.js"></script>
 </head>
 <body>
 <a href="index.html">home</a>
@@ -13,12 +13,27 @@
 <br>
 <div id="jigsaw_puzzle_root"></div>
 <br>
-<button id="shuffle">
-    shuffle
-</button>
+<fieldset>
+    <legend>Game</legend>
+    <button id="shuffle">
+        shuffle
+    </button>
 
-<button id="reset">
-    reset
-</button>
+    <button id="reset">
+        reset
+    </button>
+</fieldset>
+<br>
+<fieldset>
+    <legend>Settings</legend>
+    <label>
+        radius
+        <input id="radius" type="tel" value="30">
+    </label>
+
+    <button id="apply">
+        apply
+    </button>
+</fieldset>
 </body>
 </html>
