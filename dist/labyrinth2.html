@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>labyrinth</title>
+</head>
+<body>
+<canvas id="gameCanvas" width="400" height="400"></canvas>
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    let ball = { x: 200, y: 200, radius: 10, speedX: 0, speedY: 0 };
+
+    function drawBall() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+        ctx.fillStyle = '#0095DD';
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function updateBallPosition() {
+        ball.x += ball.speedX;
+        ball.y += ball.speedY;
+
+        // Границы холста
+        if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) {
+            ball.speedX = 0;
+        }
+        if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+            ball.speedY = 0;
+        }
+    }
+
+    window.addEventListener('devicemotion', function(event) {
+        // alert(`${event.acceleration.x} m/s2`)
+        ball.speedX = event.accelerationIncludingGravity.x * 2;
+        ball.speedY = -event.accelerationIncludingGravity.y * 2;  // Изменяем знак для правильного направления
+    });
+    if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        DeviceMotionEvent.requestPermission()
+            .then(permissionState => {
+            if (permissionState === 'granted') {
+                window.addEventListener('devicemotion', function(event) {
+                    // alert(`${event.acceleration.x} m/s2`)
+                    ball.speedX = event.accelerationIncludingGravity.x * 2;
+                    ball.speedY = -event.accelerationIncludingGravity.y * 2;  // Изменяем знак для правильного направления
+                });
+            } else {
+                console.log('Доступ к акселерометру отклонён');
+            }
+            })
+            .catch(console.error);
+    } else {
+        // Если requestPermission не нужен, просто используем devicemotion
+        window.addEventListener('devicemotion', function(event) {
+            // alert(`${event.acceleration.x} m/s2`)
+            ball.speedX = event.accelerationIncludingGravity.x * 2;
+            ball.speedY = -event.accelerationIncludingGravity.y * 2;  // Изменяем знак для правильного направления
+        });
+    }
+
+    function gameLoop() {
+        updateBallPosition();
+        drawBall();
+        requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+</script>
+
+</body>
+</html>
